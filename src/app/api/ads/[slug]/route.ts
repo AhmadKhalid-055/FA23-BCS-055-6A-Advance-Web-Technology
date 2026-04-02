@@ -2,9 +2,9 @@ import { NextRequest, NextResponse } from 'next/server';
 import { supabaseAdmin } from '@/lib/supabase';
 import { serverError, notFound, verifyAuth, unauthorized, forbidden, badRequest } from '@/lib/middleware';
 
-export async function GET(req: NextRequest, { params }: { params: { slug: string } }) {
+export async function GET(req: NextRequest, context: { params: Promise<{ slug: string }> }) {
   try {
-    const { slug } = params;
+    const { slug } = await context.params;
     
     // Check if UUID
     const isUuid = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(slug);
@@ -47,13 +47,14 @@ export async function GET(req: NextRequest, { params }: { params: { slug: string
 
 export async function DELETE(
   req: NextRequest,
-  { params }: { params: { slug: string } }
+  context: { params: Promise<{ slug: string }> }
 ) {
   try {
+    const { slug } = await context.params;
     const auth = verifyAuth(req);
     if (!auth) return unauthorized();
 
-    const adIdOrSlug = params.slug;
+    const adIdOrSlug = slug;
 
     // Check if UUID
     const isUuid = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(adIdOrSlug);
