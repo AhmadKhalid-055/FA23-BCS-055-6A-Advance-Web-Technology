@@ -19,7 +19,11 @@
     "axios": "^1.6.0",
     "date-fns": "^3.0.0",
     "recharts": "^2.10.0",
+<<<<<<< HEAD
     "lucide-react": "^1.7.0",
+=======
+    "lucide-react": "^0.263.0",
+>>>>>>> 4d5b50563cf7249ca15c7bd9ce15260b5c518e20
     "clsx": "^2.0.0",
     "zustand": "^4.4.0"
   },
