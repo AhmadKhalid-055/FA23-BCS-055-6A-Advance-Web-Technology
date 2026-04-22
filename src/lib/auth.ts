@@ -11,15 +11,15 @@ export const generateToken = (userId: string, role: UserRole): string => {
   return jwt.sign(
     { userId, role },
     JWT_SECRET,
-    { expiresIn: JWT_EXPIRY }
+    { expiresIn: JWT_EXPIRY as any }
   );
 };
 
 // Verify JWT Token
 export const verifyToken = (token: string): { userId: string; role: UserRole } | null => {
   try {
-    const decoded = jwt.verify(token, JWT_SECRET) as { userId: string; role: UserRole };
-    return decoded;
+    const decoded = jwt.verify(token, JWT_SECRET) as any;
+    return decoded as { userId: string; role: UserRole };
   } catch (error) {
     return null;
   }

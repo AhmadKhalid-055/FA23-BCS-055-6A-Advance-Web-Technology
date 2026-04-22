@@ -35,8 +35,7 @@ export async function GET(req: NextRequest) {
       )
       .eq('status', 'submitted')
       .order('created_at', { ascending: true })
-      .limit(limit)
-      .offset(offset);
+      .range(offset, offset + limit - 1);
 
     if (error) throw new Error(error.message);
 
