@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import { useAuth } from '@/store/auth';
 import { useRouter } from 'next/navigation';
 import { Button, Card, Spinner, Badge } from '@/components/ui';
+import Image from 'next/image';
 import { ShieldCheck, Eye, CheckCircle, XCircle, User, Tag, Clock, ArrowRight, Zap } from 'lucide-react';
 import clsx from 'clsx';
 
@@ -162,10 +163,13 @@ export default function ModeratorDashboard() {
                   <div className="flex flex-col sm:flex-row h-full">
                     {/* Media Block */}
                     <div className="sm:w-1/3 relative bg-muted overflow-hidden">
-                      <img 
+                      <Image 
                         src={ad.ad_media?.[0]?.original_url || "https://images.unsplash.com/photo-1550751827-4bd374c3f58b?q=80&w=2670&auto=format&fit=crop"} 
                         alt={ad.title} 
+                        width={400}
+                        height={300}
                         className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700 group-hover:scale-110"
+                        unoptimized
                       />
                       <div className="absolute inset-0 bg-primary/5 group-hover:bg-transparent transition-colors" />
                     </div>

@@ -146,21 +146,24 @@ export const getActiveAds = async (limit = 20, offset = 0) => {
   if (error) throw new Error(error.message);
 
   // Calculate and sort by rank score
-  const adsWithRank = ads.map((ad: any) => ({
-    ...ad,
-    category_name: ad.categories?.name,
-    city_name: ad.cities?.name,
-    main_image: ad.ad_media?.[0]?.original_url,
-    rank_score: calculateRankScore({
+  const adsWithRank = ads.map((ad) => {
+    const publishAt = ad.publish_at || ad.created_at;
+    return {
       ...ad,
-      package_weight: ad.packages?.weight || 1,
-      daysSincePublish: Math.floor(
-        (Date.now() - new Date(ad.publish_at).getTime()) / (1000 * 60 * 60 * 24)
-      ),
-    }),
-  }));
+      category_name: (ad.categories as any)?.name,
+      city_name: (ad.cities as any)?.name,
+      main_image: ad.ad_media?.[0]?.original_url,
+      rank_score: calculateRankScore({
+        ...ad,
+        package_weight: (ad.packages as any)?.weight || 1,
+        daysSincePublish: Math.floor(
+          (Date.now() - new Date(publishAt).getTime()) / (1000 * 60 * 60 * 24)
+        ),
+      } as any),
+    };
+  });
 
-  return adsWithRank.sort((a: any, b: any) => b.rank_score - a.rank_score);
+  return adsWithRank.sort((a, b) => (b.rank_score || 0) - (a.rank_score || 0));
 };
 
 // Filter ads by category and city
@@ -193,10 +196,10 @@ export const filterAds = async (categoryId?: string, cityId?: string, limit = 20
 
   if (error) throw new Error(error.message);
 
-  return ads?.map((ad: any) => ({
+  return ads?.map((ad) => ({
     ...ad,
-    category_name: ad.categories?.name,
-    city_name: ad.cities?.name,
+    category_name: (ad.categories as any)?.name,
+    city_name: (ad.cities as any)?.name,
     main_image: ad.ad_media?.[0]?.original_url
   })) || [];
 };

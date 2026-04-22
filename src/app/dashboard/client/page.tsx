@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import { useAuth } from '@/store/auth';
 import { useRouter } from 'next/navigation';
 import { Button, Card, Spinner, Badge, Modal, Input } from '@/components/ui';
+import Image from 'next/image';
 import Link from 'next/link';
 import { Plus, Package2, CheckCircle, Clock, ExternalLink, Zap, ShieldCheck, CreditCard, ChevronRight, Trash2 } from 'lucide-react';
 import clsx from 'clsx';
@@ -28,7 +29,7 @@ interface Package {
 export default function ClientDashboard() {
   const { isAuthenticated, token, user } = useAuth();
   const router = useRouter();
-  const [data, setData] = useState<any>(null);
+  const [data, setData] = useState<unknown>(null);
   const [loading, setLoading] = useState(true);
   
   // Payment Modal State
@@ -145,8 +146,8 @@ export default function ClientDashboard() {
       const result = await res.json();
       if (result.success) {
         setData({
-          ...data,
-          ads: data.ads.filter((a: any) => a.id !== adId)
+          ...(data as any),
+          ads: (data as any).ads.filter((a: Ad) => a.id !== adId)
         });
       } else {
         alert(result.error || 'Failed to delete ad');
@@ -196,10 +197,10 @@ export default function ClientDashboard() {
       {/* Stats Grid - Futuristic Cards */}
       <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
         {[
-          { label: 'Total Listings', value: data?.stats.total_ads || 0, icon: Package2, color: 'primary' },
-          { label: 'Live Market', value: data?.stats.active_ads || 0, icon: ShieldCheck, color: 'green' },
-          { label: 'Under Review', value: data?.stats.pending_review || 0, icon: Clock, color: 'yellow' },
-          { label: 'Declined', value: data?.stats.rejected_ads || 0, icon: Zap, color: 'red' }
+          { label: 'Total Listings', value: (data as any)?.stats?.total_ads || 0, icon: Package2, color: 'primary' },
+          { label: 'Live Market', value: (data as any)?.stats?.active_ads || 0, icon: ShieldCheck, color: 'green' },
+          { label: 'Under Review', value: (data as any)?.stats?.pending_review || 0, icon: Clock, color: 'yellow' },
+          { label: 'Declined', value: (data as any)?.stats?.rejected_ads || 0, icon: Zap, color: 'red' }
         ].map((stat, i) => (
           <div key={i} className="group relative">
             <div className={clsx(
@@ -247,17 +248,20 @@ export default function ClientDashboard() {
           <Badge variant="default" className="font-black px-4 py-1.5 shadow-sm">Real-time Syncing</Badge>
         </div>
 
-        {data?.ads && data.ads.length > 0 ? (
+        {(data as any)?.ads && (data as any).ads.length > 0 ? (
           <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
-            {data.ads.map((ad: Ad, index: number) => (
+            {(data as any).ads.map((ad: Ad, index: number) => (
               <div key={ad.id} className="group perspective-1000 animate-in fade-in slide-in-from-bottom-4 duration-500" style={{ animationDelay: `${index * 100}ms` }}>
                 <Card className="relative overflow-hidden h-full flex flex-col p-0 bg-white border-border/80 shadow-lg hover:shadow-2xl transition-all duration-500 group-hover:-translate-y-2 border-b-4 border-b-transparent hover:border-b-primary">
                   {/* Card Media Area */}
                   <div className="relative h-48 w-full bg-muted overflow-hidden">
-                    <img 
+                    <Image 
                       src={ad.ad_media?.[0]?.original_url || "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=2564&auto=format&fit=crop"} 
                       alt={ad.title}
+                      width={400}
+                      height={300}
                       className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 opacity-90 group-hover:opacity-100"
+                      unoptimized
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
                     <div className="absolute top-4 right-4 opacity-0 group-hover:opacity-100 transition-opacity z-20">

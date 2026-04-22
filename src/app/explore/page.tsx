@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import { Button, Card, Spinner, Badge } from '@/components/ui';
+import Image from 'next/image';
 import Link from 'next/link';
 import { Search, MapPin, Tag, Zap, ArrowRight, Filter, Globe, ChevronRight } from 'lucide-react';
 import { Category, City, Ad } from '@/types';
@@ -145,10 +146,13 @@ export default function Explore() {
                     
                     {/* Visual Media Placeholder/Preview */}
                     <div className="relative h-56 w-full bg-muted/30 overflow-hidden border-b border-border/50">
-                      <img 
+                      <Image 
                         src={ad.main_image || "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=2564&auto=format&fit=crop"} 
                         alt={ad.title}
+                        width={600}
+                        height={400}
                         className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 opacity-90 group-hover:opacity-100"
+                        unoptimized
                       />
                       <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent" />
                       

@@ -5,6 +5,7 @@ import { useParams, useRouter } from 'next/navigation';
 import { Card, Button, Badge, Spinner } from '@/components/ui';
 import { MapPin, Tag, Clock, ChevronLeft, ShieldCheck, Zap, Globe, MessageSquare, AlertTriangle, User } from 'lucide-react';
 import Link from 'next/link';
+import Image from 'next/image';
 import clsx from 'clsx';
 
 export default function AdDetailsPage() {
@@ -94,10 +95,13 @@ export default function AdDetailsPage() {
             <div className="group relative">
                <div className="absolute -inset-1.5 bg-primary/10 rounded-[2.5rem] blur opacity-40 group-hover:opacity-60 transition duration-500" />
                <Card className="relative p-0 overflow-hidden rounded-[2.5rem] border-white shadow-2xl group">
-                 <img 
+                 <Image 
                     src={mainMedia} 
                     alt={ad.title} 
+                    width={1200}
+                    height={500}
                     className="w-full h-[500px] object-cover transition-transform duration-1000 group-hover:scale-110" 
+                    unoptimized
                  />
                  <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent" />
                  

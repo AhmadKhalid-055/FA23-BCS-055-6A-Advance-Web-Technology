@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import { useAuth } from '@/store/auth';
 import { useRouter } from 'next/navigation';
 import { Button, Card, Spinner, Badge } from '@/components/ui';
+import Image from 'next/image';
 import { 
   BarChart3, 
   TrendingUp, 
@@ -26,9 +27,9 @@ export default function AdminDashboard() {
   const { isAuthenticated, user, token } = useAuth();
   const router = useRouter();
   const [loading, setLoading] = useState(true);
-  const [analytics, setAnalytics] = useState<any>(null);
-  const [payments, setPayments] = useState<any[]>([]);
-  const [publishQueue, setPublishQueue] = useState<any[]>([]);
+  const [analytics, setAnalytics] = useState<any>(null); // Keep any for analytics object as it's complex
+  const [payments, setPayments] = useState<unknown[]>([]);
+  const [publishQueue, setPublishQueue] = useState<unknown[]>([]);
 
   useEffect(() => {
     if (!isAuthenticated) {
@@ -79,7 +80,7 @@ export default function AdminDashboard() {
 
       const result = await res.json();
       if (result.success) {
-        setPayments(payments.filter(p => p.id !== paymentId));
+        setPayments((payments as any[]).filter(p => p.id !== paymentId));
         alert(action === 'verify' ? 'Payment verified! Ad is now awaiting publication.' : 'Payment rejected');
         // Reload ads to publish
         const adsRes = await fetch('/api/admin/ads', { headers: { Authorization: `Bearer ${token}` } });
@@ -107,7 +108,7 @@ export default function AdminDashboard() {
 
       const result = await res.json();
       if (result.success) {
-        setPublishQueue(publishQueue.filter(ad => ad.id !== adId));
+        setPublishQueue((publishQueue as any[]).filter(ad => ad.id !== adId));
         alert('Ad successfully published!');
       } else {
         alert(result.error || 'Failed to publish ad');
@@ -197,7 +198,7 @@ export default function AdminDashboard() {
 
           <div className="space-y-4">
             {payments.length > 0 ? (
-              payments.map((p, index) => (
+              (payments as any[]).map((p, index) => (
                 <div key={p.id} className="animate-in slide-in-from-left-4 duration-500" style={{ animationDelay: `${index * 100}ms` }}>
                   <Card className="p-5 flex flex-col sm:flex-row gap-5 hover:border-primary/20 shadow-md group">
                     <div className="sm:w-12 sm:h-12 bg-muted rounded-xl flex items-center justify-center shrink-0">
@@ -252,13 +253,17 @@ export default function AdminDashboard() {
 
           <div className="space-y-4">
             {publishQueue.length > 0 ? (
-              publishQueue.map((ad, index) => (
+              (publishQueue as any[]).map((ad, index) => (
                 <div key={ad.id} className="animate-in slide-in-from-right-4 duration-500" style={{ animationDelay: `${index * 100}ms` }}>
                   <Card className="p-5 flex flex-col sm:flex-row gap-5 hover:border-primary/20 shadow-md group">
                     <div className="sm:w-16 h-16 bg-muted rounded-xl overflow-hidden shrink-0">
-                      <img 
+                      <Image 
                         src={ad.ad_media?.[0]?.original_url || "https://images.unsplash.com/photo-1451187580459-43490279c0fa?q=80&w=2672&auto=format&fit=crop"} 
+                        alt={ad.title}
+                        width={100}
+                        height={100}
                         className="w-full h-full object-cover group-hover:scale-110 transition-transform" 
+                        unoptimized
                       />
                     </div>
                     <div className="flex-grow space-y-3">
