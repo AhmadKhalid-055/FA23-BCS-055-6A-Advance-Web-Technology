@@ -1,8 +1,18 @@
 # AdFlow Pro - Sponsored Listing Marketplace
 
-[![Live Demo](https://img.shields.io/badge/Live-Demo-brightgreen?style=for-the-badge&logo=vercel)](https://fa-23-bcs-055-6-a-advance-web-techn.vercel.app/)
+## 🌐 Live Access
+**Live Project:** [https://fa-23-bcs-055-6-a-advance-web-techn.vercel.app/](https://fa-23-bcs-055-6-a-advance-web-techn.vercel.app/)
+
+### 🔐 Test Credentials
+Use these credentials to log in and explore the role-based dashboards:
+- **Email:** `ahmad.khalid.regno.0055@gmail.com`
+- **Password:** `Adflow123`
+
+---
+
 ![Status](https://img.shields.io/badge/Status-Live-success?style=for-the-badge)
 ![Version](https://img.shields.io/badge/Version-0.1.0-blue?style=for-the-badge)
+![Stack](https://img.shields.io/badge/Stack-Next.js%2015%20%7C%20Supabase%20%7C%20Tailwind-black?style=for-the-badge)
 
 A high-performance, production-ready classified ads marketplace. Built with **Next.js 15**, **Supabase**, and **Tailwind CSS**, featuring a full moderation workflow, secure payment verification, and real-time analytics.
 
@@ -32,15 +42,6 @@ A high-performance, production-ready classified ads marketplace. Built with **Ne
    ```bash
    npm run dev
    ```
-
----
-
-## 🔐 Test Credentials
-
-Use these credentials to log in and explore the role-based dashboards:
-
-- **Email:** `ahmad.khalid.regno.0055@gmail.com`
-- **Password:** `Adflow123`
 
 ---
 
